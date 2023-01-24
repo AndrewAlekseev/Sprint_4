@@ -48,19 +48,20 @@ public class OrderScooterTest {
         objOrderScooter = new OrderScooter(driver);
     }
 
-    @Test
-    public void testOpen() {
-        OrderScooter orderScooter = new OrderScooter(driver);
-        orderScooter.open();
-    }
+
     @Test
     public void orderPositive1() {
         objOrderScooter.clickOrderButtonHeader();
         createOrder();
     }
     @Test
-    public void orderPositiveMiddleButton() {
+    public void orderScrollToMiddleButton() {
         objOrderScooter.scrollToMiddleButton();
+                createOrder();
+    }
+
+    @Test
+    public void orderClickToMiddleButton () {
         objOrderScooter.clickOrderButtonMiddle();
         createOrder();
     }

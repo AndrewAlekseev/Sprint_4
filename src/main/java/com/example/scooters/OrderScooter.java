@@ -96,11 +96,8 @@ public class OrderScooter {
     public void clickYesInDialog() {
         driver.findElement(yesInDialog).click();
     }
-    public Boolean isPanelVisible() {
-        return driver.findElement(confirmationDialog).isDisplayed();
+    public String isPanelVisible() {
+        return driver.findElement(confirmationDialog).getText();
     }
-    public void open(){
 
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-    }
 }

@@ -16,7 +16,7 @@ public class HomePageScooter {
     //  локатор для панели
     private final By panel = By.id("accordion__heading-" + index);
     // метод отображения аккордиона после к клика
-    public Boolean isPanelVisible(int index) {
+    public Boolean isPanelVisible() {
         return driver.findElement(locator).isDisplayed();
     }
     public void clickAcceptCookie(){
@@ -24,7 +24,7 @@ public class HomePageScooter {
     }
 
     // метод клика на стрелку
-    public void clickPanel(int index) {
+    public void clickPanel() {
         driver.findElement(locator).click();
     }
 
@@ -32,8 +32,5 @@ public class HomePageScooter {
         this.driver = driver;
     }
 
-    public void open(){
 
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-    }
 }
