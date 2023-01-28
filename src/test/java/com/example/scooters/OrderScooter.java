@@ -1,13 +1,21 @@
 package com.example.scooters;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import static org.junit.Assert.assertTrue;
+import java.time.Duration;
 
 public class OrderScooter {
     private final WebDriver driver;
 
+    // локатор для запуска сайта с аредой самокатов
+    public void open () {
+        driver.get("https://qa-scooter.praktikum-services.ru");
+    }
 
     //  локатор для кнопки "заказать" в шапке страницы
     private final By orderButtonHeader = By.className("Button_Button__ra12g");
@@ -34,6 +42,13 @@ public class OrderScooter {
     //локатор на "диалог"
     private final By yesInDialog = By.xpath("//div[@class = 'Order_Modal__YZ-d3']");
     private final By confirmationDialog = By.className("Order_Modal__YZ-d3");
+
+    private final By orderContentContainer = By.xpath(".//div[contains(@class, 'Order_Content')]");
+
+    private final By checkStatusButton = By.xpath(".//div[contains(@class, 'Order_Content')]//button[text()='Посмотреть статус']");
+
+    private final By orderModalContainer = By.xpath(".//div[contains(@class, 'Order_Modal')]");
+
     //конструктор OrderScooter
     public OrderScooter(WebDriver driver) {
         this.driver = driver;
@@ -45,10 +60,8 @@ public class OrderScooter {
     public void confirmCookies() {
         driver.findElement(By.id("rcc-confirm-button")).click();
     }
-    public void scrollToMiddleButton() {
-        WebElement element = driver.findElement(orderButtonMiddle);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-    }
+
+
     // метод клика на кнопку "Заказать" в разделе "Как это работает"
     public void clickOrderButtonMiddle() {
         driver.findElement(orderButtonMiddle).click();
@@ -78,7 +91,12 @@ public class OrderScooter {
     //метод клика на кнопку "Далее"
     public void clickNextButton() {
         driver.findElement(nextButton).click();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+                ExpectedConditions.visibilityOf(driver.findElement(deliveryDateField)));
+        assertTrue(driver.findElement(deliveryDateField).isDisplayed());
     }
+
+
     //метод ввода даты доставки самоката
     public void setDeliveryDate() {
         driver.findElement(deliveryDateField).click();
@@ -93,11 +111,29 @@ public class OrderScooter {
     public void clickOrderScooterButton() {
         driver.findElement(orderScooterButton).click();
     }
-    public void clickYesInDialog() {
+    public void clickYesOnThisPanel() {
         driver.findElement(yesInDialog).click();
     }
     public String isPanelVisible() {
         return driver.findElement(confirmationDialog).getText();
+
     }
 
+    public void checkOrderContentContainerDisplayed() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOf(driver.findElement(orderContentContainer)));
+        assertTrue(driver.findElement(orderContentContainer).isDisplayed());
+    }
+
+    public void checkCheckStatusButtonDisplayed() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOf(driver.findElement(checkStatusButton)));
+        assertTrue(driver.findElement(checkStatusButton).isDisplayed());
+    }
+
+    public void checkOrderModalDisplayed() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOf(driver.findElement(orderModalContainer)));
+        assertTrue(driver.findElement(orderModalContainer).isDisplayed());
+    }
 }
